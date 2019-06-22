@@ -4,7 +4,7 @@ import friends from "./friends.json";
 import Jumbotron from "./components/Jumbotron";
 import Wrapper from "./components/Wrapper";
 import Row from "./components/Row";
-import Col from "./components/Col";
+
 import Card from "./components/Card";
 
 class App extends React.Component {
@@ -13,7 +13,7 @@ class App extends React.Component {
     topScore: 0,
     gameMessage: "Click an image to begin!",
     images: friends,
-    currentImg: 0
+    guesses: []
   };
 
   shuffleCards = arr => {
@@ -22,26 +22,27 @@ class App extends React.Component {
 
   playGame = index => {
     this.shuffleCards(this.state.images);
-    if (index === this.state.currentImg) {
+    if (this.state.guesses.includes(index)) {
       this.setState({
-        currentImg: 0,
         gameMessage: "You guessed incorrectly!",
         score: 0
       });
     } else {
-      const current = index;
+      const current = this.state.guesses;
+      current.push(index);
+      console.log(current);
       const score = this.state.score + 1;
       if (score > this.state.topScore) {
         this.setState({
           gameMessage: "You guessed correctly!",
-          currentImg: current,
+          guesses: current,
           score: score,
           topScore: score
         });
       } else {
         this.setState({
           gameMessage: "You guessed correctly!",
-          currentImg: current,
+          guesses: current,
           score: score
         });
       }
